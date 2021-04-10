@@ -1,0 +1,134 @@
+swagger: "2.0"
+info: # API metadata
+  title: "Pet API"
+  version: "1.0.1"
+  description: "Keeps Pet control for the Vet clinic"
+  termsOfService: "https://google.com"
+  contact:
+    email: "oscar.garcia@mariachi.io"
+    name: "El oga"
+    url: "https://bing.com"
+  license:
+    name: "Apache 2.0"
+    url: "https://guthub.com"
+basePath: "/api"
+paths:
+  /pets:
+    get:
+      description: "Gets all pets that are being taken care of in the vet clinic"
+      operationId: "getPets"
+      produces:
+        - "application/json"
+        - "application/xml"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: array
+            items: 
+              $ref: "#/definitions/Pet"
+        404:
+          description: "No pets"
+      deprecated: false
+    post:
+      description: "Add a pet"
+      operationId: "addPet"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - name: "body"
+          in: body
+          description: "Pet data"
+          required: true
+          schema:
+            $ref: "#/definitions/Pet"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Pet"
+        404:
+          description: "The pet does not exist"
+      deprecated: false
+  /pets/{id}:
+    get:
+      description: "Gets a pet by id"
+      operationId: "getPet"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - name: "id"
+          description: "Pet identifier"
+          type: integer
+          in: path
+          required: true
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Pet"
+        404:
+          description: "The pet does not exist"
+      deprecated: false
+    put:
+      description: "Gets a pet by id"
+      operationId: "updatePet"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - name: "id"
+          description: "Pet identifier"
+          type: integer
+          in: path
+          required: true
+        - name: "body"
+          in: body
+          description: "Pet data"
+          required: true
+          schema:
+            $ref: "#/definitions/Pet"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Pet"
+        404:
+          description: "The pet does not exist"
+      deprecated: false
+    delete:
+      description: "Discharges a pet"
+      operationId: "removePet"
+      parameters:
+        - name: "id"
+          description: "Pet identifier"
+          type: integer
+          in: path
+          required: true
+      responses:
+        200:
+          description: "Success"
+        404:
+          description: "The pet does not exist"
+      deprecated: false
+definitions:
+  Pet:
+    required:
+      - "id"
+      - "tag"
+    properties: 
+      id:
+        type: integer
+        format: "int64"
+        example: "1234"
+        description: "Internat Pet Id"
+      tag:  
+        type: string
+        example: "ABC-1234"
+        description: "Tag identifiar of the pet"
+      name:
+        type: string
+        example: "Doggy"
+        description: "The name of the pet"

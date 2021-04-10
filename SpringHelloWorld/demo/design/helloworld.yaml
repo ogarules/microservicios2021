@@ -1,0 +1,77 @@
+swagger: "2.0"
+info: # API metadata
+  title: "Swagger hello world"
+  version: "1.0.1"
+  description: "An api for saying hello... [Greeting](http://swagger.io) \n other things"
+  termsOfService: "https://google.com"
+  contact:
+    email: "oscar.garcia@mariachi.io"
+    name: "El oga"
+    url: "https://bing.com"
+  license:
+    name: "Apache 2.0"
+    url: "https://guthub.com"
+basePath: "/api"
+tags: # API Doc Groups
+  - name: "Hello group"
+    description: "Everything about Hello"  
+    externalDocs:
+      url: "http://wikipedia.com"
+      description: "Docuemntation"
+schemes:
+  - http
+  - https
+paths: # resources
+  /hello/{message}:
+    get:
+      tags:
+        - "Hello group"
+      description: "Gets the world greeting"
+      operationId: "getGreeting" # For code generation
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - name: "message"
+          in: path
+          type: string
+          required: true
+      responses: # Expected results
+        200:
+          description: "Success"
+          schema:
+            type: object
+            $ref: "#/definitions/Greeting"
+        
+        400:
+          description: "Invalid message received"
+          schema:
+            type: array
+            items: 
+              type: object
+              $ref: "#/definitions/Greeting"
+        404:
+          description: "Message not found"
+        405:
+          description: "Incorrect internal validation"
+      deprecated: false
+definitions: # Resources definitions
+  Greeting:
+    required:
+      - "message"
+      - "id"
+    properties: 
+      id:
+        type: integer
+        format: "int64"
+        example: "1234"
+        description: "The greeting identifier"
+      message:
+        type: string
+        example: "Yeyyyyyyy!!!!!!"
+        description: "The greeting text"
+      location:
+        type: string
+        format: "coordinates"
+        example: "-1.234235,1.2342463"
+        description: "The greeting location in the world"
