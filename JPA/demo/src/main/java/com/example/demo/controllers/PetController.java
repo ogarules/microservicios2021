@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import javax.validation.constraints.Min;
 import javax.validation.groups.Default;
 
 import com.example.demo.models.Pet;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Validated
 public class PetController {
     
     @Autowired
@@ -53,10 +55,10 @@ public class PetController {
     }
 
     @PutMapping(value="pets/{id}")
-    public ResponseEntity<Pet> putPet(@PathVariable Integer id, @Validated({OnUpdate.class, Default.class}) @RequestBody Pet entity, BindingResult result) {
-        if(result.hasErrors()){
-            return new ResponseEntity<Pet>(entity, HttpStatus.BAD_REQUEST);
-        } 
+    public ResponseEntity<Pet> putPet(@PathVariable @Min(1) Integer id, @Validated({OnUpdate.class, Default.class}) @RequestBody Pet entity){//}, BindingResult result) {
+        // if(result.hasErrors()){
+        //     return new ResponseEntity<Pet>(entity, HttpStatus.BAD_REQUEST);
+        // } 
 
         return ResponseEntity.ok(service.updatePet(entity, id));
     }
