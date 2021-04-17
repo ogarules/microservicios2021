@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.example.demo.models.Pet;
 import com.example.demo.repositories.PetRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -13,8 +15,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 
 import lombok.var;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
@@ -25,6 +35,12 @@ class DemoApplicationTests {
 
 	@Autowired
     PetRepository respository;
+
+	@Autowired
+	MockMvc mvc;
+
+	@Autowired
+	ObjectMapper objectmapper;
 
 	@Test
 	public void contextLoads() {
@@ -37,6 +53,22 @@ class DemoApplicationTests {
 		this.respository.save(pet);
 
 		assertNotNull(pet.getId());
+	}
+
+	@Test
+	public void testMvc() throws Exception{
+		Pet pet = new Pet();
+		pet.setName("banana");
+
+		String body = objectmapper.writeValueAsString(pet);
+
+		String result = mvc.perform(post("/pets").contentType("application/json").content(body))
+		            .andExpect(status().isOk())
+					.andExpect(content().contentTypeCompatibleWith("application/json"))
+					.andDo(print())
+					.andExpect(jsonPath("$.name", is("banana")))
+					.andReturn().getResponse().getContentAsString();
+
 	}
 
 }
