@@ -21,6 +21,8 @@ import lombok.var;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -59,7 +61,7 @@ class DemoApplicationTests {
 	public void testMvc() throws Exception{
 		Pet pet = new Pet();
 		pet.setName("banana");
-
+		
 		String body = objectmapper.writeValueAsString(pet);
 
 		String result = mvc.perform(post("/pets").contentType("application/json").content(body))
@@ -68,6 +70,31 @@ class DemoApplicationTests {
 					.andDo(print())
 					.andExpect(jsonPath("$.name", is("banana")))
 					.andReturn().getResponse().getContentAsString();
+
+	}
+
+	@Test
+	public void testValidations() throws Exception{
+		Pet pet = new Pet();
+		pet.setAge(100);
+		
+		String body = objectmapper.writeValueAsString(pet);
+
+		mvc.perform(post("/pets").contentType("application/json").content(body))
+		            .andExpect(status().isBadRequest());
+
+	}
+
+	@Test
+	public void testValidationsUpdate() throws Exception{
+		Pet pet = new Pet();
+		pet.setId(1);
+		pet.setAge(200);
+		
+		String body = objectmapper.writeValueAsString(pet);
+
+		mvc.perform(put("/pets/1").contentType("application/json").content(body))
+		            .andExpect(status().isBadRequest());
 
 	}
 
