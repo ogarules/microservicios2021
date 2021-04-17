@@ -21,6 +21,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
+@Api(tags = "Store of pets", description = "Api para administrar las mascotas")
 @RestController
 @Validated
 public class PetController {
@@ -31,16 +37,25 @@ public class PetController {
     @Autowired
     SmartValidator validator;
 
+    @ApiOperation(value = "Devuelve todas las mascotas activas", produces = "application/json", consumes = "application/json", protocols = "http,https", notes="blablabla")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
+                            @ApiResponse(code = 500, message = "Internal Server Error")})
     @GetMapping(value="pets")
     public Iterable<Pet> getPets() {
         return service.getAllPets();
     }
-    
+
+    @ApiOperation(value = "Devuelve una mascota en base a su identificador interno", produces = "application/json", consumes = "application/json", protocols = "http,https", notes="blablabla2")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
+                            @ApiResponse(code = 500, message = "Internal Server Error")})
     @GetMapping(value="pets/{id}")
     public Pet getPet(@PathVariable Integer id) {
         return service.getPetById(id);
     }
 
+    @ApiOperation(value = "Agrega una mascota", produces = "application/json", consumes = "application/json", protocols = "http,https", notes="blablabla 3")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
+                            @ApiResponse(code = 500, message = "Internal Server Error")})
     @PostMapping(value="pets")
     public ResponseEntity<Pet> addPet(@RequestBody Pet entity, BindingResult result) {
 
@@ -54,8 +69,11 @@ public class PetController {
         return ResponseEntity.ok(entity);
     }
 
+    @ApiOperation(value = "Actualiza una mascota", produces = "application/json", consumes = "application/json", protocols = "http,https", notes="blablabla 4")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
+                            @ApiResponse(code = 500, message = "Internal Server Error")})
     @PutMapping(value="pets/{id}")
-    public ResponseEntity<Pet> putPet(@PathVariable @Min(1) Integer id, @Validated({OnUpdate.class, Default.class}) @RequestBody Pet entity){//}, BindingResult result) {
+    public ResponseEntity<Pet> putPet(@PathVariable @Min(100) Integer id, @Validated({OnUpdate.class, Default.class}) @RequestBody Pet entity){//}, BindingResult result) {
         // if(result.hasErrors()){
         //     return new ResponseEntity<Pet>(entity, HttpStatus.BAD_REQUEST);
         // } 
@@ -63,6 +81,9 @@ public class PetController {
         return ResponseEntity.ok(service.updatePet(entity, id));
     }
 
+    @ApiOperation(value = "Da de baja una mascota", produces = "application/json", consumes = "application/json", protocols = "http,https", notes="blablabla 5")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
+                            @ApiResponse(code = 500, message = "Internal Server Error")})
     @DeleteMapping(value="pets/{id}")
     public void removePet(@PathVariable Integer id) {
         this.service.removePet(id);
