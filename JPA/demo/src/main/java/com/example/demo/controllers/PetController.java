@@ -56,7 +56,7 @@ public class PetController {
     public ResponseEntity<Pet> putPet(@PathVariable Integer id, @Validated({OnUpdate.class, Default.class}) @RequestBody Pet entity, BindingResult result) {
         if(result.hasErrors()){
             return new ResponseEntity<Pet>(entity, HttpStatus.BAD_REQUEST);
-        }
+        } 
 
         return ResponseEntity.ok(service.updatePet(entity, id));
     }
