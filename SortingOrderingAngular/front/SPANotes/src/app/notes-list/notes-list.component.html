@@ -1,0 +1,38 @@
+<div style="width: 100%;">
+
+    <div style="width: 100%;">
+        <mat-form-field fxFlex class="full-width">
+            <mat-label>Texto</mat-label>
+            <input matInput [(ngModel)]="textFilter" type="text" title="Status" #noteText="ngModel" name="noteText">
+        </mat-form-field>
+        <mat-form-field fxFlex class="full-width">
+            <mat-label>Usuario</mat-label>
+            <input matInput [(ngModel)]="userFilter" type="text" title="Status" #noteUser="ngModel" name="noteUser">
+        </mat-form-field>
+        <mat-form-field fxFlex class="full-width">
+            <mat-label>Valor</mat-label>
+            <input matInput [(ngModel)]="valueFilter" type="number" title="Status" #noteValue="ngModel" name="noteValue">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="loadData()">Buscar</button>
+    </div>
+
+
+    <mat-table [dataSource]="dataSource" matSort (matSortChange)="sortNotes($event)">
+        <ng-container matColumnDef="user">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="noteUser"></mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.noteUser}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="text">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="noteText"></mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.noteText}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="valuenote">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="value"></mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.value}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="['user', 'text', 'valuenote']"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: ['user', 'text', 'valuenote']"></mat-row>
+    </mat-table>
+    <mat-paginator [length]="totalRecords" [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 15]" (page)="loadData()"></mat-paginator>
+</div>
