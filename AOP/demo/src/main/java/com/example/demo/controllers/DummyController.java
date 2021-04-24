@@ -29,4 +29,8 @@ public class DummyController {
         return service.SaveCard(entity);
     }
     
+    @GetMapping(value="card")
+    public Iterable<Card> getCards() {
+        return service.GetCards();
+    }
 }

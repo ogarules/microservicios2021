@@ -7,4 +7,6 @@ public interface DummyService {
     String GetDummyValue(String value);
 
     Card SaveCard(Card card);
+
+    public Iterable<Card> GetCards();
 }
