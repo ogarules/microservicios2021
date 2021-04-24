@@ -19,15 +19,15 @@
 
     <mat-table [dataSource]="dataSource" matSort (matSortChange)="sortNotes($event)">
         <ng-container matColumnDef="user">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="noteUser"></mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header="noteUser">Usuario</mat-header-cell>
             <mat-cell *matCellDef="let item">{{item.noteUser}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="text">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="noteText"></mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header="noteText">Texto</mat-header-cell>
             <mat-cell *matCellDef="let item">{{item.noteText}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="valuenote">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="value"></mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header="value">Valor</mat-header-cell>
             <mat-cell *matCellDef="let item">{{item.value}}</mat-cell>
         </ng-container>
 

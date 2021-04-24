@@ -1,8 +1,13 @@
 package com.example.demo.controllers;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import com.example.demo.models.Note;
+import com.example.demo.models.QNote;
 import com.example.demo.repositories.NoteRepository;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.jpa.impl.JPAQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -37,5 +42,18 @@ public class NoteController {
         
         return this.repository.save(entity);
     }
-    
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @GetMapping(value="notesquerydsl")
+    public Iterable<Note> getMethodName() {
+        JPAQuery<Note> query = new JPAQuery<>(entityManager); 
+        QNote note = QNote.note;
+        
+        return query.from(note)
+                    .where(note.value.between(2, 5).and(note.noteText.containsIgnoreCase("oscar")))
+                    .orderBy(note.noteUser.asc())
+                    .fetch();
+    }    
 }
