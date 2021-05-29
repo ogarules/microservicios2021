@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: organization
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: organization
@@ -33,6 +34,13 @@ spec:
             secretKeyRef:
               name: mongodb
               key: database-password
+        readinessProbe:
+          httpGet:
+            path: /organization/actuator/health
+            port: 8081
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 10
 ---
 apiVersion: v1
 kind: Service
@@ -44,7 +52,7 @@ spec:
   selector:
     app: organization
   ports:
-  - port: 8080
+  - port: 8081
     targetPort: 8080
     protocol: TCP
-              
+  type: LoadBalancer        
