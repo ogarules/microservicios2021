@@ -1,0 +1,22 @@
+# See more at https://istio.io/docs/reference/config/networking/virtual-service/
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: employee
+spec:
+  hosts:
+  - '*.humanresources.com'
+  - 'humanresources.com'
+  gateways:
+  - "humanresources-gateway"
+  http:
+  - match:
+    - uri:
+        prefix: /api/v1/employee
+    route:
+    - destination:
+        host: employee
+        port:
+          number: 8082
+    rewrite:
+      uri: /
