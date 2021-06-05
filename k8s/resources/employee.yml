@@ -47,4 +47,4 @@ spec:
   - port: 8082
     targetPort: 8080
     protocol: TCP
-  type: LoadBalancer
+ # type: LoadBalancer

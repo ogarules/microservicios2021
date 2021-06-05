@@ -3,14 +3,16 @@ kind: Deployment
 metadata:
   name: organization
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: organization
+      version: v1
   template:
     metadata:
       labels:
         app: organization
+        version: v1
     spec:
       containers:
       - name: organization
@@ -62,4 +64,5 @@ spec:
   - port: 8081
     targetPort: 8080
     protocol: TCP
-  type: LoadBalancer        
+    name: http
+ # type: LoadBalancer        
