@@ -6,10 +6,12 @@ spec:
   selector:
     matchLabels:
       app: department
+      type: backend
   template:
     metadata:
       labels:
         app: department
+        type: backend
     spec:
       containers:
       - name: department
@@ -47,4 +49,5 @@ spec:
   - port: 8083
     targetPort: 8080
     protocol: TCP
+    name: http
  # type: LoadBalancer
