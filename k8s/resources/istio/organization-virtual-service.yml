@@ -5,7 +5,7 @@ metadata:
   name: organization
 spec:
   hosts:
-  - '*.humanresources.com'
+  - 'my.humanresources.com'
   - 'humanresources.com'
   gateways:
   - "humanresources-gateway"
@@ -28,4 +28,16 @@ spec:
       weight: 50
     rewrite:
       uri: /
-
+    corsPolicy:
+      allowOrigins:
+        - prefix: "http://localhost:4200"
+        - prefix: "https://my.humanresources.com"
+      allowHeaders:
+        - "*"
+      allowMethods:
+        - "PUT"
+        - "POST"
+        - "GET"
+        - "DELETE"
+        - "OPTIONS"
+      allowCredentials: true

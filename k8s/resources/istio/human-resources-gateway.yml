@@ -12,7 +12,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - '*/*.humanresources.com'
+    - '*/my.humanresources.com'
     - '*/humanresources.com'
     # tls:
       # httpsRedirect: true
@@ -21,9 +21,8 @@ spec:
       name: https
       protocol: HTTPS
     hosts:
-    - '*/*.humanresources.com'
+    - '*/my.humanresources.com'
     - '*/humanresources.com'
     tls:
       mode: SIMPLE
-      serverCertificate: /etc/istio/ingressgateway-certs/humanresources-io-crt.pem
-      privateKey: /etc/istio/ingressgateway-certs/humanresources-io-key.pem
+      credentialName: httpbin-credential
