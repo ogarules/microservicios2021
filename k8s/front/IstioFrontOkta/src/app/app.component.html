@@ -1,0 +1,12 @@
+<h1>Mi aplicacion SPA Istio + SSO + Okta + OpenId + SSL</h1>
+
+<div *ngIf="authentication.isAuthenticated">
+    <h2>Aloja {{user?.name}}</h2>
+    <button (click)="oktaAuthService.signOut()">Deslogiarse</button>
+</div>
+
+<div *ngIf="!authentication.isAuthenticated">
+    <button (click)="oktaAuthService.signInWithRedirect({})">Logiarse</button>
+</div>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,13 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: okta-authorization-policy
+spec:
+  selector:
+    matchLabels:
+      type: backend
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ["https://dev-909112.okta.com/oauth2/default/*"]

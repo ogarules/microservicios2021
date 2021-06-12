@@ -1,0 +1,12 @@
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: okta-request-authentication
+spec:
+  selector:
+    matchLabels:
+      type: backend
+  jwtRules:
+  - issuer: "https://dev-909112.okta.com/oauth2/default"
+    jwksUri: "https://dev-909112.okta.com/oauth2/default/v1/keys"
+    forwardOriginalToken: true

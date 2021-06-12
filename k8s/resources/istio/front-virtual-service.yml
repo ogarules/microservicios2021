@@ -1,0 +1,36 @@
+# See more at https://istio.io/docs/reference/config/networking/virtual-service/
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: front
+spec:
+  hosts:
+  - 'my.humanresources.com'
+  - 'humanresources.com'
+  gateways:
+  - "humanresources-gateway"
+  http:
+  - match: 
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: front
+        port:
+          number: 80
+    corsPolicy:
+      allowOrigins:
+        - prefix: "https://my.humanresources.com"
+        - prefix: "https://humanresources.com"
+        - prefix: "http://my.humanresources.com"
+        - prefix: "http://humanresources.com"
+        - prefix: "http://localhost"
+      allowHeaders:
+        - "*"
+      allowMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - OPTIONS
+      allowCredentials: true
