@@ -3,23 +3,23 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: organization-autoscaler
 spec:
-  behavior:
-    scaleDown:
-      stabilizationWindowSeconds: 300
-      policies:
-      - type: Percent
-        value: 10
-        periodSeconds: 15      
-    scaleUp:
-      stabilizationWindowSeconds: 300
-      policies:
-      - type: Percent
-        periodSeconds: 15
-        value: 20
-      - type: Pods
-        value: 4
-        periodSeconds: 15
-      selectPolicy: Max
+  # behavior:
+  #   scaleDown:
+  #     stabilizationWindowSeconds: 300
+  #     policies:
+  #     - type: Percent
+  #       value: 10
+  #       periodSeconds: 15      
+  #   scaleUp:
+  #     stabilizationWindowSeconds: 300
+  #     policies:
+  #     - type: Percent
+  #       periodSeconds: 15
+  #       value: 20
+  #     - type: Pods
+  #       value: 4
+  #       periodSeconds: 15
+  #     selectPolicy: Max
   scaleTargetRef:
     kind: Deployment
     name: organization
@@ -31,11 +31,36 @@ spec:
       resource:
         name: cpu
         target: 
-          type: Utilization
-          averageUtilization: 50
+          type: AverageValue
+          averageValue: 500m
     - type: Resource
       resource:
         name: memory
         target: 
           type: AverageValue
-          averageValue: 500Mi
+          averageValue: 50Mi
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: organization-v2-autoscaler
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: organization-v2
+    apiVersion: apps/v1
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target: 
+          type: AverageValue
+          averageValue: 500m
+    - type: Resource
+      resource:
+        name: memory
+        target: 
+          type: AverageValue
+          averageValue: 50Mi          

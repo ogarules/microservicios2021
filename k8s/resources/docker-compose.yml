@@ -1,0 +1,25 @@
+version: '3.4'
+
+services: 
+    mongodb:
+        image: mongo:latest
+        ports: 
+        - 27017:27017
+        environment: 
+            MONGO_INITDB_DATABASE: admin
+            MONGO_INITDB_ROOT_USERNAME: oguita
+            MONGO_INITDB_ROOT_PASSWORD: Ogarcia_123
+    oktaangular:
+        image: containersoga/oktaangular-compose
+        depends_on: 
+        - mongodb
+        build:
+            context: ../front/IstioFrontOkta
+            dockerfile: ./Dockerfile
+        environment: 
+            URL_PORTAL: http://localhost:8051
+        ports: 
+        - 8050:80
+        
+
+        
